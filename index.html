@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>HypnoKids — Audio Pengantar Tidur Anak</title>
+<meta name="description" content="Pemutar audio HypnoKids pengantar tidur anak: atur kecepatan, timer tidur, dan backsound penenang pilihanmu.">
+<meta name="theme-color" content="#141233">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="stars" aria-hidden="true"></div>
+
+<header class="app-header">
+  <div class="brand">
+    <div class="brand-moon" aria-hidden="true">🌙</div>
+    <div>
+      <h1>HypnoKids</h1>
+      <p>Audio Pengantar Tidur Anak</p>
+    </div>
+  </div>
+  <button id="installBtn" class="btn btn-ghost" hidden>⬇ Pasang Aplikasi</button>
+</header>
+
+<main>
+  <!-- ══════════ NOW PLAYING ══════════ -->
+  <section class="player-card" aria-label="Pemutar audio">
+    <div class="np-top">
+      <div id="npCover" class="np-cover"><span id="npCoverEmoji">🎧</span>
+        <div class="eq" id="eqBars" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+      </div>
+      <div class="np-meta">
+        <div class="np-label">Sedang diputar</div>
+        <h2 id="npTitle">Pilih audio di bawah ini</h2>
+        <p id="npTheme">10 audio penenang untuk membantu anak tidur nyenyak</p>
+        <div class="np-badges">
+          <span class="badge" id="npNumber">–</span>
+          <span class="badge badge-soft" id="npState">Siap</span>
+          <span class="badge badge-soft" id="sleepBadge" hidden>💤 <span id="sleepBadgeText"></span></span>
+        </div>
+      </div>
+      <button id="favBtn" class="icon-btn fav" title="Tandai favorit" aria-label="Tandai favorit">♡</button>
+    </div>
+
+    <div class="seek-row">
+      <span id="curTime" class="time">0:00</span>
+      <input type="range" id="seekBar" min="0" max="1000" value="0" step="1" aria-label="Geser posisi audio">
+      <span id="durTime" class="time">0:00</span>
+    </div>
+
+    <div class="controls">
+      <button id="shuffleBtn" class="icon-btn" title="Putar acak" aria-label="Putar acak">🔀</button>
+      <button id="prevBtn" class="icon-btn" title="Audio sebelumnya" aria-label="Sebelumnya">⏮</button>
+      <button id="back10Btn" class="icon-btn" title="Mundur 10 detik" aria-label="Mundur 10 detik">⏪</button>
+      <button id="playBtn" class="play-btn" aria-label="Putar / Jeda">▶</button>
+      <button id="fwd10Btn" class="icon-btn" title="Maju 10 detik" aria-label="Maju 10 detik">⏩</button>
+      <button id="nextBtn" class="icon-btn" title="Audio berikutnya" aria-label="Berikutnya">⏭</button>
+      <button id="repeatBtn" class="icon-btn" title="Ulangi: mati" aria-label="Mode ulangi">🔁</button>
+    </div>
+
+    <div class="control-grid">
+      <!-- Kecepatan -->
+      <div class="ctl-box">
+        <div class="ctl-head"><span>⏩ Kecepatan Putar</span><output id="speedOut">1.00×</output></div>
+        <input type="range" id="speedRange" min="0.5" max="1.5" step="0.05" value="1" aria-label="Kecepatan putar">
+        <div class="chips" id="speedChips">
+          <button data-speed="0.75">0.75×</button>
+          <button data-speed="0.9">0.9×</button>
+          <button data-speed="1" class="active">1× Normal</button>
+          <button data-speed="1.1">1.1×</button>
+          <button data-speed="1.25">1.25×</button>
+          <button data-speed="1.5">1.5×</button>
+        </div>
+        <label class="switch-row"><input type="checkbox" id="pitchToggle" checked> Pertahankan nada suara (tidak cempreng saat dipercepat)</label>
+      </div>
+
+      <!-- Volume -->
+      <div class="ctl-box">
+        <div class="ctl-head"><span>🔊 Volume Suara</span><output id="volOut">100%</output></div>
+        <div class="vol-row">
+          <button id="muteBtn" class="icon-btn small" aria-label="Bisukan">🔊</button>
+          <input type="range" id="volRange" min="0" max="1" step="0.01" value="1" aria-label="Volume suara">
+        </div>
+        <div class="ctl-head" style="margin-top:14px"><span>🎵 Volume Backsound</span><output id="bgVolOut">40%</output></div>
+        <input type="range" id="bgVolRange" min="0" max="1" step="0.01" value="0.4" aria-label="Volume backsound">
+      </div>
+
+      <!-- Timer tidur -->
+      <div class="ctl-box">
+        <div class="ctl-head"><span>💤 Timer Tidur</span><output id="sleepOut">Mati</output></div>
+        <div class="chips" id="sleepChips">
+          <button data-sleep="0" class="active">Mati</button>
+          <button data-sleep="5">5 mnt</button>
+          <button data-sleep="10">10 mnt</button>
+          <button data-sleep="15">15 mnt</button>
+          <button data-sleep="20">20 mnt</button>
+          <button data-sleep="30">30 mnt</button>
+          <button data-sleep="45">45 mnt</button>
+          <button data-sleep="60">60 mnt</button>
+          <button data-sleep="-1">Akhir audio</button>
+        </div>
+        <p class="hint">Suara akan mengecil perlahan 30 detik sebelum timer habis, lalu berhenti sendiri.</p>
+      </div>
+
+      <!-- Backsound -->
+      <div class="ctl-box">
+        <div class="ctl-head"><span>🌧️ Backsound (Suara Latar)</span><output id="bgOut">Tidak ada</output></div>
+        <div class="chips" id="bgChips">
+          <button data-bg="none" class="active">Tidak ada</button>
+          <button data-bg="rain">🌧️ Hujan Lembut</button>
+          <button data-bg="ocean">🌊 Ombak Laut</button>
+          <button data-bg="wind">🍃 Angin Malam</button>
+          <button data-bg="pad">🎹 Nada Tenang</button>
+          <button data-bg="crickets">🦗 Malam Desa</button>
+        </div>
+        <div id="bgFileList" class="bg-files"></div>
+        <label class="upload-btn">
+          📂 Pakai backsound dari HP/komputer saya
+          <input type="file" id="bgUpload" accept="audio/*" hidden>
+        </label>
+        <p class="hint">Backsound diputar berulang (loop) di belakang suara utama, volumenya bisa diatur terpisah di atas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ PLAYLIST ══════════ -->
+  <section aria-label="Daftar audio">
+    <div class="list-head">
+      <h2>📚 Daftar Audio <span class="count" id="trackCount"></span></h2>
+      <div class="list-tools">
+        <input type="search" id="searchInput" placeholder="Cari audio…" aria-label="Cari audio">
+        <label class="switch-row"><input type="checkbox" id="favOnly"> Favorit saja</label>
+        <label class="switch-row"><input type="checkbox" id="autoNext" checked> Lanjut otomatis</label>
+      </div>
+    </div>
+    <div id="trackList" class="track-list"></div>
+    <p id="emptyState" class="empty" hidden>Tidak ada audio yang cocok dengan pencarian.</p>
+  </section>
+
+  <footer class="app-footer">
+    <p>HypnoKids • Teman tidur anak Indonesia 🇮🇩 — Dengarkan dengan volume lembut, temani anak sampai terlelap. 🌙</p>
+  </footer>
+</main>
+
+<div id="toast" class="toast" role="status" hidden></div>
+
+<audio id="mainAudio" preload="metadata" crossorigin="anonymous"></audio>
+<audio id="bgAudio" loop preload="auto" crossorigin="anonymous"></audio>
+
+<script src="app.js"></script>
+</body>
+</html>

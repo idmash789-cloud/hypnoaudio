@@ -276,6 +276,15 @@ els.autoNext.addEventListener('change', () => { S.autoNext = els.autoNext.checke
 els.search.addEventListener('input', renderList);
 els.favOnly.addEventListener('change', renderList);
 
+/* ---------- tab panel pengaturan (tampilan HP: 1 panel tampil bergantian) ---------- */
+document.querySelectorAll('.panel-tabs button').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.panel-tabs button').forEach(b => b.classList.toggle('active', b === btn));
+    document.querySelectorAll('.control-grid .ctl-box').forEach(box =>
+      box.classList.toggle('show', box.id === btn.dataset.panel));
+  });
+});
+
 /* ---------- timer tidur ---------- */
 let sleepMode = null;        // null | 'end' | menit (angka)
 let sleepEndAt = 0;

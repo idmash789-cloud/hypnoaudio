@@ -60,9 +60,16 @@
       <button id="repeatBtn" class="icon-btn" title="Ulangi: mati" aria-label="Mode ulangi">🔁</button>
     </div>
 
+    <nav class="panel-tabs" aria-label="Panel pengaturan">
+      <button data-panel="panel-speed" class="active">⏩ Cepat</button>
+      <button data-panel="panel-volume">🔊 Suara</button>
+      <button data-panel="panel-sleep">💤 Timer</button>
+      <button data-panel="panel-bg">🌧️ Latar</button>
+    </nav>
+
     <div class="control-grid">
       <!-- Kecepatan -->
-      <div class="ctl-box">
+      <div class="ctl-box show" id="panel-speed">
         <div class="ctl-head"><span>⏩ Kecepatan Putar</span><output id="speedOut">1.00×</output></div>
         <input type="range" id="speedRange" min="0.5" max="1.5" step="0.05" value="1" aria-label="Kecepatan putar">
         <div class="chips" id="speedChips">
@@ -77,7 +84,7 @@
       </div>
 
       <!-- Volume -->
-      <div class="ctl-box">
+      <div class="ctl-box" id="panel-volume">
         <div class="ctl-head"><span>🔊 Volume Suara</span><output id="volOut">100%</output></div>
         <div class="vol-row">
           <button id="muteBtn" class="icon-btn small" aria-label="Bisukan">🔊</button>
@@ -88,7 +95,7 @@
       </div>
 
       <!-- Timer tidur -->
-      <div class="ctl-box">
+      <div class="ctl-box" id="panel-sleep">
         <div class="ctl-head"><span>💤 Timer Tidur</span><output id="sleepOut">Mati</output></div>
         <div class="chips" id="sleepChips">
           <button data-sleep="0" class="active">Mati</button>
@@ -105,7 +112,7 @@
       </div>
 
       <!-- Backsound -->
-      <div class="ctl-box">
+      <div class="ctl-box" id="panel-bg">
         <div class="ctl-head"><span>🌧️ Backsound (Suara Latar)</span><output id="bgOut">Tidak ada</output></div>
         <div class="chips" id="bgChips">
           <button data-bg="none" class="active">Tidak ada</button>
@@ -126,7 +133,7 @@
   </section>
 
   <!-- ══════════ PLAYLIST ══════════ -->
-  <section aria-label="Daftar audio">
+  <section aria-label="Daftar audio" class="playlist-section">
     <div class="list-head">
       <h2>📚 Daftar Audio <span class="count" id="trackCount"></span></h2>
       <div class="list-tools">

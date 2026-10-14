@@ -134,10 +134,84 @@ input[type=range]::-moz-range-thumb{width:18px; height:18px; border-radius:50%; 
   background:#262058; color:var(--text); border:1px solid var(--accent2); padding:11px 18px;
   border-radius:999px; font-size:14px; box-shadow:0 12px 30px rgba(0,0,0,.5); max-width:92vw; text-align:center;
 }
+.panel-tabs{display:none}
+
+/* ══════════════ MOBILE: semua muat 1 layar ══════════════
+   Halaman tidak scroll; yang scroll hanya daftar audio
+   (di area-nya sendiri) dan panel yang sedang dibuka. */
 @media (max-width:720px){
-  .control-grid,.track-list{grid-template-columns:1fr}
-  .np-cover{width:76px; height:76px; flex-basis:76px; font-size:34px}
-  .np-meta h2{font-size:19px}
-  .brand h1{font-size:24px}
-  .play-btn{width:62px; height:62px}
+  html,body{height:100%}
+  body{display:flex; flex-direction:column; height:100vh; height:100dvh; overflow:hidden}
+  .app-header{flex:0 0 auto; padding:10px 14px 2px; width:100%}
+  .brand-moon{font-size:26px}
+  .brand h1{font-size:20px}
+  .brand p{font-size:11.5px; margin-top:0}
+  .btn{padding:7px 11px; font-size:12.5px}
+  main{flex:1 1 auto; min-height:0; width:100%; display:flex; flex-direction:column; padding:8px 12px 10px}
+
+  .player-card{flex:0 0 auto; padding:12px 14px; border-radius:20px}
+  .np-top{gap:10px; align-items:center}
+  .np-cover{width:52px; height:52px; flex-basis:52px; border-radius:14px; font-size:24px}
+  .eq{display:none}
+  .np-label{display:none}
+  .np-meta h2{font-size:16.5px; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .np-meta p{font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .np-badges{margin-top:5px}
+  .badge{font-size:10.5px; padding:2px 8px}
+  #npNumber{display:none}
+  .icon-btn.fav{width:38px; height:38px; font-size:20px}
+
+  .seek-row{margin:10px 0 2px; gap:8px}
+  .time{font-size:12px; min-width:32px}
+  .controls{gap:6px; margin:6px 0 10px}
+  .controls .icon-btn{width:38px; height:38px; font-size:16px}
+  .play-btn{width:54px; height:54px; font-size:23px}
+
+  .panel-tabs{display:flex; gap:6px; margin-bottom:8px}
+  .panel-tabs button{
+    flex:1; background:rgba(255,255,255,.08); color:var(--text); border:1px solid transparent;
+    border-radius:999px; padding:7px 2px; font-size:12.5px; cursor:pointer; white-space:nowrap;
+  }
+  .panel-tabs button.active{background:var(--accent); color:#231d05; font-weight:700}
+  .control-grid{display:block}
+  .ctl-box{display:none; padding:11px 12px; height:138px; overflow-y:auto}
+  .ctl-box.show{display:block}
+  .ctl-head{font-size:13px; margin-bottom:7px}
+  .chips{gap:6px; margin-top:8px}
+  .chips button{padding:5px 10px; font-size:12px}
+  .switch-row{font-size:12px; margin-top:8px}
+  .hint{display:none}
+  .upload-btn{margin-top:9px; padding:7px 11px; font-size:12px}
+
+  .playlist-section{flex:1 1 auto; min-height:0; display:flex; flex-direction:column; margin-top:12px}
+  .list-head{margin:0 0 8px; flex:0 0 auto}
+  .list-head h2{font-size:16.5px; margin:0 0 7px}
+  .count{font-size:12.5px}
+  .list-tools{gap:10px}
+  #searchInput{padding:8px 13px; font-size:13px; min-width:120px}
+  .list-tools .switch-row{font-size:11.5px; gap:5px}
+  .track-list{grid-template-columns:1fr; gap:8px; flex:1 1 auto; min-height:0; overflow-y:auto; padding-bottom:4px; -webkit-overflow-scrolling:touch}
+  .track{padding:8px 10px; border-radius:14px; gap:10px}
+  .track-cover{width:42px; height:42px; flex-basis:42px; border-radius:11px; font-size:20px}
+  .track-info h3{font-size:13.5px}
+  .track-info p{font-size:11.5px}
+  .track-meta{font-size:10.5px; margin-top:3px}
+  .track-progress{margin-top:4px}
+  .mini-btn{width:30px; height:30px; font-size:13px}
+  .app-footer{display:none}
+  .toast{bottom:14px; font-size:13px; padding:9px 14px}
+}
+/* HP pendek (≤740px): rapatkan lagi supaya daftar audio tetap kebagian ruang */
+@media (max-width:720px) and (max-height:740px){
+  .ctl-box{height:118px}
+  .play-btn{width:48px; height:48px; font-size:20px}
+  .np-cover{width:46px; height:46px; flex-basis:46px; font-size:21px}
+  .controls{margin:4px 0 8px}
+  .seek-row{margin-top:7px}
+}
+/* Layar HP sangat pendek (landscape / HP kecil): panel lebih ramping */
+@media (max-width:720px) and (max-height:560px){
+  .ctl-box{height:104px}
+  .np-meta p{display:none}
+  .brand p{display:none}
 }
